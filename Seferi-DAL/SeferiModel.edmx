@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SeferiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Duraklar">
+          <Key>
+            <PropertyRef Name="DurakID" />
+          </Key>
+          <Property Name="DurakID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DurakAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Seferi.dbo.GuzergahDuraklari' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GuzergahDuraklari">
+          <Key>
+            <PropertyRef Name="GuzergahID" />
+            <PropertyRef Name="DurakID" />
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="GuzergahID" Type="int" Nullable="false" />
+          <Property Name="DurakID" Type="int" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Guzergahlar">
+          <Key>
+            <PropertyRef Name="GuzergahID" />
+          </Key>
+          <Property Name="GuzergahID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GuzergahAdi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Rezervasyonlar">
+          <Key>
+            <PropertyRef Name="RezervasyonID" />
+          </Key>
+          <Property Name="RezervasyonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MusteriAdiSoyadi" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MusteriTCKN" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SeferID" Type="int" Nullable="false" />
+          <Property Name="BinisDurakID" Type="int" Nullable="false" />
+          <Property Name="InisDurakID" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Seferler">
+          <Key>
+            <PropertyRef Name="SeferID" />
+          </Key>
+          <Property Name="SeferID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GuzergahID" Type="int" Nullable="false" />
+          <Property Name="TarihSaat" Type="datetime" Nullable="false" />
+          <Property Name="Aciklama" Type="varbinary" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_GuzergahDuraklari_Duraklar">
+          <End Role="Duraklar" Type="Self.Duraklar" Multiplicity="1" />
+          <End Role="GuzergahDuraklari" Type="Self.GuzergahDuraklari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Duraklar">
+              <PropertyRef Name="DurakID" />
+            </Principal>
+            <Dependent Role="GuzergahDuraklari">
+              <PropertyRef Name="DurakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuzergahDuraklari_Guzergahlar">
+          <End Role="Guzergahlar" Type="Self.Guzergahlar" Multiplicity="1" />
+          <End Role="GuzergahDuraklari" Type="Self.GuzergahDuraklari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guzergahlar">
+              <PropertyRef Name="GuzergahID" />
+            </Principal>
+            <Dependent Role="GuzergahDuraklari">
+              <PropertyRef Name="GuzergahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Duraklar_Binis">
+          <End Role="Duraklar" Type="Self.Duraklar" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Duraklar">
+              <PropertyRef Name="DurakID" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="BinisDurakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Duraklar_Inis">
+          <End Role="Duraklar" Type="Self.Duraklar" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Duraklar">
+              <PropertyRef Name="DurakID" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="InisDurakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Seferler">
+          <End Role="Seferler" Type="Self.Seferler" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seferler">
+              <PropertyRef Name="SeferID" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="SeferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seferler_Guzergahlar">
+          <End Role="Guzergahlar" Type="Self.Guzergahlar" Multiplicity="1" />
+          <End Role="Seferler" Type="Self.Seferler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guzergahlar">
+              <PropertyRef Name="GuzergahID" />
+            </Principal>
+            <Dependent Role="Seferler">
+              <PropertyRef Name="GuzergahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SeferiModelStoreContainer">
+          <EntitySet Name="Duraklar" EntityType="Self.Duraklar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guzergahlar" EntityType="Self.Guzergahlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezervasyonlar" EntityType="Self.Rezervasyonlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seferler" EntityType="Self.Seferler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GuzergahDuraklari" EntityType="Self.GuzergahDuraklari" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GuzergahDuraklari].[GuzergahID] AS [GuzergahID], 
+    [GuzergahDuraklari].[DurakID] AS [DurakID], 
+    [GuzergahDuraklari].[Sira] AS [Sira]
+    FROM [dbo].[GuzergahDuraklari] AS [GuzergahDuraklari]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_GuzergahDuraklari_Duraklar" Association="Self.FK_GuzergahDuraklari_Duraklar">
+            <End Role="Duraklar" EntitySet="Duraklar" />
+            <End Role="GuzergahDuraklari" EntitySet="GuzergahDuraklari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuzergahDuraklari_Guzergahlar" Association="Self.FK_GuzergahDuraklari_Guzergahlar">
+            <End Role="Guzergahlar" EntitySet="Guzergahlar" />
+            <End Role="GuzergahDuraklari" EntitySet="GuzergahDuraklari" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Duraklar_Binis" Association="Self.FK_Rezervasyonlar_Duraklar_Binis">
+            <End Role="Duraklar" EntitySet="Duraklar" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Duraklar_Inis" Association="Self.FK_Rezervasyonlar_Duraklar_Inis">
+            <End Role="Duraklar" EntitySet="Duraklar" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Seferler" Association="Self.FK_Rezervasyonlar_Seferler">
+            <End Role="Seferler" EntitySet="Seferler" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seferler_Guzergahlar" Association="Self.FK_Seferler_Guzergahlar">
+            <End Role="Guzergahlar" EntitySet="Guzergahlar" />
+            <End Role="Seferler" EntitySet="Seferler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SeferiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Duraklar">
+          <Key>
+            <PropertyRef Name="DurakID" />
+          </Key>
+          <Property Name="DurakID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DurakAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GuzergahDuraklaris" Relationship="Self.FK_GuzergahDuraklari_Duraklar" FromRole="Duraklar" ToRole="GuzergahDuraklari" />
+          <NavigationProperty Name="Rezervasyonlars" Relationship="Self.FK_Rezervasyonlar_Duraklar_Binis" FromRole="Duraklar" ToRole="Rezervasyonlar" />
+          <NavigationProperty Name="Rezervasyonlars1" Relationship="Self.FK_Rezervasyonlar_Duraklar_Inis" FromRole="Duraklar" ToRole="Rezervasyonlar" />
+        </EntityType>
+        <EntityType Name="Guzergahlar">
+          <Key>
+            <PropertyRef Name="GuzergahID" />
+          </Key>
+          <Property Name="GuzergahID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GuzergahAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GuzergahDuraklaris" Relationship="Self.FK_GuzergahDuraklari_Guzergahlar" FromRole="Guzergahlar" ToRole="GuzergahDuraklari" />
+          <NavigationProperty Name="Seferlers" Relationship="Self.FK_Seferler_Guzergahlar" FromRole="Guzergahlar" ToRole="Seferler" />
+        </EntityType>
+        <EntityType Name="Rezervasyonlar">
+          <Key>
+            <PropertyRef Name="RezervasyonID" />
+          </Key>
+          <Property Name="RezervasyonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MusteriAdiSoyadi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MusteriTCKN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SeferID" Type="Int32" Nullable="false" />
+          <Property Name="BinisDurakID" Type="Int32" Nullable="false" />
+          <Property Name="InisDurakID" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Duraklar" Relationship="Self.FK_Rezervasyonlar_Duraklar_Binis" FromRole="Rezervasyonlar" ToRole="Duraklar" />
+          <NavigationProperty Name="Duraklar1" Relationship="Self.FK_Rezervasyonlar_Duraklar_Inis" FromRole="Rezervasyonlar" ToRole="Duraklar" />
+          <NavigationProperty Name="Seferler" Relationship="Self.FK_Rezervasyonlar_Seferler" FromRole="Rezervasyonlar" ToRole="Seferler" />
+        </EntityType>
+        <EntityType Name="Seferler">
+          <Key>
+            <PropertyRef Name="SeferID" />
+          </Key>
+          <Property Name="SeferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GuzergahID" Type="Int32" Nullable="false" />
+          <Property Name="TarihSaat" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Aciklama" Type="Binary" MaxLength="250" FixedLength="false" />
+          <NavigationProperty Name="Guzergahlar" Relationship="Self.FK_Seferler_Guzergahlar" FromRole="Seferler" ToRole="Guzergahlar" />
+          <NavigationProperty Name="Rezervasyonlars" Relationship="Self.FK_Rezervasyonlar_Seferler" FromRole="Seferler" ToRole="Rezervasyonlar" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="GuzergahDuraklari">
+          <Key>
+            <PropertyRef Name="GuzergahID" />
+            <PropertyRef Name="DurakID" />
+            <PropertyRef Name="Sira" />
+          </Key>
+          <Property Name="GuzergahID" Type="Int32" Nullable="false" />
+          <Property Name="DurakID" Type="Int32" Nullable="false" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Duraklar" Relationship="Self.FK_GuzergahDuraklari_Duraklar" FromRole="GuzergahDuraklari" ToRole="Duraklar" />
+          <NavigationProperty Name="Guzergahlar" Relationship="Self.FK_GuzergahDuraklari_Guzergahlar" FromRole="GuzergahDuraklari" ToRole="Guzergahlar" />
+        </EntityType>
+        <Association Name="FK_GuzergahDuraklari_Duraklar">
+          <End Role="Duraklar" Type="Self.Duraklar" Multiplicity="1" />
+          <End Role="GuzergahDuraklari" Type="Self.GuzergahDuraklari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Duraklar">
+              <PropertyRef Name="DurakID" />
+            </Principal>
+            <Dependent Role="GuzergahDuraklari">
+              <PropertyRef Name="DurakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Duraklar_Binis">
+          <End Role="Duraklar" Type="Self.Duraklar" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Duraklar">
+              <PropertyRef Name="DurakID" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="BinisDurakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Duraklar_Inis">
+          <End Role="Duraklar" Type="Self.Duraklar" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Duraklar">
+              <PropertyRef Name="DurakID" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="InisDurakID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuzergahDuraklari_Guzergahlar">
+          <End Role="Guzergahlar" Type="Self.Guzergahlar" Multiplicity="1" />
+          <End Role="GuzergahDuraklari" Type="Self.GuzergahDuraklari" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guzergahlar">
+              <PropertyRef Name="GuzergahID" />
+            </Principal>
+            <Dependent Role="GuzergahDuraklari">
+              <PropertyRef Name="GuzergahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seferler_Guzergahlar">
+          <End Role="Guzergahlar" Type="Self.Guzergahlar" Multiplicity="1" />
+          <End Role="Seferler" Type="Self.Seferler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guzergahlar">
+              <PropertyRef Name="GuzergahID" />
+            </Principal>
+            <Dependent Role="Seferler">
+              <PropertyRef Name="GuzergahID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Seferler">
+          <End Role="Seferler" Type="Self.Seferler" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seferler">
+              <PropertyRef Name="SeferID" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="SeferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SeferiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Duraklars" EntityType="Self.Duraklar" />
+          <EntitySet Name="Guzergahlars" EntityType="Self.Guzergahlar" />
+          <EntitySet Name="Rezervasyonlars" EntityType="Self.Rezervasyonlar" />
+          <EntitySet Name="Seferlers" EntityType="Self.Seferler" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="GuzergahDuraklaris" EntityType="Self.GuzergahDuraklari" />
+          <AssociationSet Name="FK_GuzergahDuraklari_Duraklar" Association="Self.FK_GuzergahDuraklari_Duraklar">
+            <End Role="Duraklar" EntitySet="Duraklars" />
+            <End Role="GuzergahDuraklari" EntitySet="GuzergahDuraklaris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Duraklar_Binis" Association="Self.FK_Rezervasyonlar_Duraklar_Binis">
+            <End Role="Duraklar" EntitySet="Duraklars" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Duraklar_Inis" Association="Self.FK_Rezervasyonlar_Duraklar_Inis">
+            <End Role="Duraklar" EntitySet="Duraklars" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuzergahDuraklari_Guzergahlar" Association="Self.FK_GuzergahDuraklari_Guzergahlar">
+            <End Role="Guzergahlar" EntitySet="Guzergahlars" />
+            <End Role="GuzergahDuraklari" EntitySet="GuzergahDuraklaris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seferler_Guzergahlar" Association="Self.FK_Seferler_Guzergahlar">
+            <End Role="Guzergahlar" EntitySet="Guzergahlars" />
+            <End Role="Seferler" EntitySet="Seferlers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Seferler" Association="Self.FK_Rezervasyonlar_Seferler">
+            <End Role="Seferler" EntitySet="Seferlers" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlars" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SeferiModelStoreContainer" CdmEntityContainer="SeferiEntities">
+          <EntitySetMapping Name="Duraklars">
+            <EntityTypeMapping TypeName="SeferiModel.Duraklar">
+              <MappingFragment StoreEntitySet="Duraklar">
+                <ScalarProperty Name="DurakID" ColumnName="DurakID" />
+                <ScalarProperty Name="DurakAdi" ColumnName="DurakAdi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guzergahlars">
+            <EntityTypeMapping TypeName="SeferiModel.Guzergahlar">
+              <MappingFragment StoreEntitySet="Guzergahlar">
+                <ScalarProperty Name="GuzergahID" ColumnName="GuzergahID" />
+                <ScalarProperty Name="GuzergahAdi" ColumnName="GuzergahAdi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezervasyonlars">
+            <EntityTypeMapping TypeName="SeferiModel.Rezervasyonlar">
+              <MappingFragment StoreEntitySet="Rezervasyonlar">
+                <ScalarProperty Name="RezervasyonID" ColumnName="RezervasyonID" />
+                <ScalarProperty Name="MusteriAdiSoyadi" ColumnName="MusteriAdiSoyadi" />
+                <ScalarProperty Name="MusteriTCKN" ColumnName="MusteriTCKN" />
+                <ScalarProperty Name="SeferID" ColumnName="SeferID" />
+                <ScalarProperty Name="BinisDurakID" ColumnName="BinisDurakID" />
+                <ScalarProperty Name="InisDurakID" ColumnName="InisDurakID" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seferlers">
+            <EntityTypeMapping TypeName="SeferiModel.Seferler">
+              <MappingFragment StoreEntitySet="Seferler">
+                <ScalarProperty Name="SeferID" ColumnName="SeferID" />
+                <ScalarProperty Name="GuzergahID" ColumnName="GuzergahID" />
+                <ScalarProperty Name="TarihSaat" ColumnName="TarihSaat" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SeferiModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuzergahDuraklaris">
+            <EntityTypeMapping TypeName="SeferiModel.GuzergahDuraklari">
+              <MappingFragment StoreEntitySet="GuzergahDuraklari">
+                <ScalarProperty Name="GuzergahID" ColumnName="GuzergahID" />
+                <ScalarProperty Name="DurakID" ColumnName="DurakID" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

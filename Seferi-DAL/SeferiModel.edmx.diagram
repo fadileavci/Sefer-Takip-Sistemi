@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="978d75455a53442899b9ea8930b87e56" Name="Diagram1">
+        <EntityTypeShape EntityType="SeferiModel.Duraklar" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeferiModel.Guzergahlar" Width="1.5" PointX="3.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeferiModel.Rezervasyonlar" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeferiModel.Seferler" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeferiModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeferiModel.GuzergahDuraklari" Width="1.5" PointX="6" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="SeferiModel.FK_GuzergahDuraklari_Duraklar" ManuallyRouted="false" />
+        <AssociationConnector Association="SeferiModel.FK_Rezervasyonlar_Duraklar_Binis" ManuallyRouted="false" />
+        <AssociationConnector Association="SeferiModel.FK_Rezervasyonlar_Duraklar_Inis" ManuallyRouted="false" />
+        <AssociationConnector Association="SeferiModel.FK_GuzergahDuraklari_Guzergahlar" ManuallyRouted="false" />
+        <AssociationConnector Association="SeferiModel.FK_Seferler_Guzergahlar" ManuallyRouted="false" />
+        <AssociationConnector Association="SeferiModel.FK_Rezervasyonlar_Seferler" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
