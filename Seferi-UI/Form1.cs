@@ -19,15 +19,59 @@ namespace Seferi_UI
 			InitializeComponent();
 		}
 		Duraklar drk = new Duraklar();
-
+		
 		private void button1_Click(object sender, EventArgs e)
 		{
-			drk.DurakAdi = txtDurakAdi.Text;
-			drk.Aciklama = txtAciklama.Text;
-			DuraklarBLL.DurakEkle(drk);
-			MessageBox.Show("durak eklendi");
+			// buttonun kliğine yine 
+			//int DurakID = int.Parse(cmbBinilenDurak.SelectedValue.ToString());
+			//lstgüzergahlar.DataSource = DuraklarBLL.GuzergahIsimGetir(DurakID);
+			//lstgüzergahlar.DisplayMember = "GuzergahAadi";
 			
+
+
+
+		}
+	
+		private void Form1_Load(object sender, EventArgs e)
+		{
+			// combobaxlara durak isimleri getirildi.
+			cmbBinilenDurak.DisplayMember = "DurakAdi";
+			cmbBinilenDurak.ValueMember = "DurakID";
+			cmbBinilenDurak.DataSource = DuraklarBLL.TumDuraklarıGetir();
+			cmbinilenDurak.DisplayMember = "DurakAdi";
+			cmbinilenDurak.ValueMember = "DurakID";
+			cmbinilenDurak.DataSource = DuraklarBLL.TumDuraklarıGetir();
+
+		
+
+
+		}
+
+		private void cmbBinilenDurak_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			//listbox a güzergah isimleri getirildi
+			int DurakID = int.Parse(cmbBinilenDurak.SelectedValue.ToString());
+			lstgüzergahlar.DataSource = DuraklarBLL.GuzergahIsimGetir(DurakID);
+			lstgüzergahlar.DisplayMember = "GuzergahID";
+			lstgüzergahlar.ValueMember = "GuzergahID";
 			
+
+
+			//listBox1.DataSource = DuraklarBLL.GuzergahlarlariGtir(DurakID);
+			//listBox1.DisplayMember = "GuzergahID";// listboxa ıd getirmek için kullanıldı
+
+
+		}
+
+		private void cmbinilenDurak_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void lstgüzergahlar_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			lstSeferler.DataSource = DuraklarBLL.SeferGetir(int.Parse(lstgüzergahlar.SelectedIndex.ToString()));
+			lstSeferler.DisplayMember = "SeferID";
 		}
 	}
 }
