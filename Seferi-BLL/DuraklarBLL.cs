@@ -28,11 +28,11 @@ namespace Seferi_BLL
 		public static Guzergahlar guzergah = new Guzergahlar();
 		public static GuzergahDuraklari guzergahdurak = new GuzergahDuraklari();
 
-		public static object  TumDuraklarıGetir()
-		{
-			
-			return dataContext.Duraklars.ToList();
-		}
+        public static object TumDuraklarıGetir()
+        {
+
+            return dataContext.Duraklars.ToList();
+        }
 
         public static object InilenDurakGetir(int DurakID)
         {
@@ -78,6 +78,24 @@ namespace Seferi_BLL
 			return dataContext.Seferlers.Where(x => x.GuzergahID == GuzergahID).ToList();
 			
 		}
+
+
+        public static void RezervasyonKaydet(Rezervasyonlar rezerv)
+        {
+            Rezervasyonlar r = new Rezervasyonlar();
+           
+            r.MusteriAdiSoyadi = rezerv.MusteriAdiSoyadi;
+            r.MusteriTCKN = rezerv.MusteriTCKN;
+            r.SeferID = rezerv.SeferID;
+            r.BinisDurakID = rezerv.BinisDurakID;
+            r.InisDurakID = rezerv.InisDurakID;
+            r.Aciklama = rezerv.Aciklama;
+
+            dataContext.Rezervasyonlars.Add(r);
+            dataContext.SaveChanges();
+         
+
+        }
 
 
 	}

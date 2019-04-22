@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Seferi_UI
 {
 	public partial class Form1 : Form
@@ -18,19 +19,24 @@ namespace Seferi_UI
 		{
 			InitializeComponent();
 		}
-		Duraklar drk = new Duraklar();
-		
+
+        
 		private void button1_Click(object sender, EventArgs e)
 		{
-			// buttonun kliğine yine 
-			//int DurakID = int.Parse(cmbBinilenDurak.SelectedValue.ToString());
-			//lstgüzergahlar.DataSource = DuraklarBLL.GuzergahIsimGetir(DurakID);
-			//lstgüzergahlar.DisplayMember = "GuzergahAadi";
-			
+       
+           Rezarvasyon frm = new Rezarvasyon();
+           
+            frm.seferID =int.Parse(dataGridView1.SelectedRows[0].Cells["SeferID"].Value.ToString());
+            frm.binisdurakid= int.Parse(cmbBinilenDurak.SelectedValue.ToString());
+            frm.inisdurakid = int.Parse(cmbinilenDurak.SelectedValue.ToString());
+            frm.Show();
 
+            // buttonun kliğine yine 
+            //int DurakID = int.Parse(cmbBinilenDurak.SelectedValue.ToString());
+            //lstgüzergahlar.DataSource = DuraklarBLL.GuzergahIsimGetir(DurakID);
+            //lstgüzergahlar.DisplayMember = "GuzergahAadi";
 
-
-		}
+        }
 	
 		private void Form1_Load(object sender, EventArgs e)
 		{
