@@ -30,9 +30,25 @@ namespace Seferi_BLL
 
 		public static object  TumDuraklarıGetir()
 		{
-			Duraklar drklr = new Duraklar();
+			
 			return dataContext.Duraklars.ToList();
 		}
+
+        public static object InilenDurakGetir(int DurakID)
+        {
+
+            var durakid = dataContext.GuzergahDuraklaris.Where(x => x.DurakID == DurakID);
+            var guzergahid = dataContext.GuzergahDuraklaris.Where(y => durakid.Any(x => x.GuzergahID == y.GuzergahID && x.Sira<y.Sira)).Select(
+          y => new
+          {
+              
+              y.DurakID,
+              y.Duraklar.DurakAdi
+
+          }
+            );
+            return guzergahid.ToList();
+        }
 
 		public static object GuzergahIsimGetir(int DurakID)
 		{

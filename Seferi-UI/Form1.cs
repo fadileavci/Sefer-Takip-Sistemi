@@ -38,9 +38,9 @@ namespace Seferi_UI
 			cmbBinilenDurak.DisplayMember = "DurakAdi";
 			cmbBinilenDurak.ValueMember = "DurakID";
 			cmbBinilenDurak.DataSource = DuraklarBLL.TumDuraklarıGetir();
-			cmbinilenDurak.DisplayMember = "DurakAdi";
-			cmbinilenDurak.ValueMember = "DurakID";
-			cmbinilenDurak.DataSource = DuraklarBLL.TumDuraklarıGetir();
+			//cmbinilenDurak.DisplayMember = "DurakAdi";
+			//cmbinilenDurak.ValueMember = "DurakID";
+			//cmbinilenDurak.DataSource = DuraklarBLL.TumDuraklarıGetir();
 
 		
 
@@ -52,16 +52,21 @@ namespace Seferi_UI
 			//listbox a güzergah isimleri getirildi
 			int DurakID = int.Parse(cmbBinilenDurak.SelectedValue.ToString());
 			lstgüzergahlar.DataSource = DuraklarBLL.GuzergahIsimGetir(DurakID);
-			lstgüzergahlar.DisplayMember = "GuzergahID";
+			lstgüzergahlar.DisplayMember = "GuzergahAdi";
 			lstgüzergahlar.ValueMember = "GuzergahID";
-			
 
 
-			//listBox1.DataSource = DuraklarBLL.GuzergahlarlariGtir(DurakID);
-			//listBox1.DisplayMember = "GuzergahID";// listboxa ıd getirmek için kullanıldı
+            cmbinilenDurak.DisplayMember = "DurakAdi";
+            cmbinilenDurak.ValueMember = "DurakID";
+            cmbinilenDurak.DataSource = DuraklarBLL.InilenDurakGetir(DurakID);
 
 
-		}
+
+            //listBox1.DataSource = DuraklarBLL.GuzergahlarlariGtir(DurakID);
+            //listBox1.DisplayMember = "GuzergahID";// listboxa ıd getirmek için kullanıldı
+
+
+        }
 
 		private void cmbinilenDurak_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -70,8 +75,17 @@ namespace Seferi_UI
 
 		private void lstgüzergahlar_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			lstSeferler.DataSource = DuraklarBLL.SeferGetir(int.Parse(lstgüzergahlar.SelectedIndex.ToString()));
-			lstSeferler.DisplayMember = "SeferID";
-		}
-	}
+            lstgüzergahlar.ValueMember = "GuzergahID";
+
+            dataGridView1.DataSource = DuraklarBLL.SeferGetir(int.Parse(lstgüzergahlar.SelectedValue.ToString()));
+
+
+
+
+          
+
+
+
+        }
+    }
 }
