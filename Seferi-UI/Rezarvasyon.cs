@@ -42,7 +42,7 @@ namespace Seferi_UI
             rzv.MusteriTCKN = txtTcNo.Text;
             rzv.Aciklama = txtAciklama.Text;
             DuraklarBLL.RezervasyonKaydet(rzv);
-
+			MessageBox.Show("rezervasyonunuz alınmıştır");
         }
     }
 }
